@@ -1,105 +1,106 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
+//create schema
+const userSchema = new mongoose.Schema(
+  {
     firstName: {
-        required: [true, 'Please enter your first name'],
-        type: String,
+      required: [true, "First name is required"],
+      type: String,
     },
     lastName: {
-        required: [true, 'Please enter your last name'],
-        type: String,
+      required: [true, "Last name is required"],
+      type: String,
     },
     profilePhoto: {
-        type: String,
+      type: String,
+      default:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     },
     email: {
-        required: [true, 'Please enter your email'],
-        type: String,
+      type: String,
+      required: [true, "Email is required"],
     },
     bio: {
-        type: String,
+      type: String,
     },
     password: {
-        required: [true, 'Please enter your password'],
-        type: String,
+      type: String,
+      required: [true, "Hei buddy Password is required"],
     },
     postCount: {
-        type: Number,
-        default: 0,
+      type: Number,
+      default: 0,
     },
     isBlocked: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
     isAdmin: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
     role: {
-        type: String,
-        enum:['Admin', 'Guest', 'Blogger'],
+      type: String,
+      enum: ["Admin", "Guest", "Blogger"],
     },
     isFollowing: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
-    isUnfollowing: {
-        type: Boolean,
-        default: false,
+    isUnFollowing: {
+      type: Boolean,
+      default: false,
     },
-    isAccountVerified: {
-        type: Boolean,
-        default: false,
-    },
-    accountVerificationToken: {
-        type: String,
-    },
-    accountVerificationTokenExpires: {
-        type: Date,
-    },
+    isAccountVerified: { type: Boolean, default: false },
+    accountVerificationToken: String,
+    accountVerificationTokenExpires: Date,
+
     viewedBy: {
-        type: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
-            }
-        ]
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
     },
+
     followers: {
-        type: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
-            }
-        ]
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
     },
     following: {
-        type: [ 
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
-            }
-        ]
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
     },
-    passwordChangedAt: {
-        type: Date,
-    },
-    passwordResetToken: {
-        type: String,
-    },
-    passwordResetTokenExpires: {
-        type: Date,
-    },
-    active: {
-        type: Boolean,
-        default: false,
-    }
-},{
-    tiJSON: {virtuals: true},
-    toObject: {virtuals: true},
-    timestamps: true,
-})
+    passwordChangeAt: Date,
+    passwordRessetToken: String,
+    passwordResetExpires: Date,
 
-const User = mongoose.model('User', userSchema);
+    active: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
+    timestamps: true,
+  }
+);
+
+//Compile schema into model
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

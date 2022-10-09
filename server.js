@@ -1,15 +1,30 @@
-const express = require('express');
-const dotenv = require('dotenv');
-
-
+const express = require("express");
+const dotenv = require("dotenv");
 dotenv.config();
-const dbConnect = require('./Config/DB/dbConnect');
-
+const dbConnect = require("./config/db/dbConnect");
+const { userRegisterCtrl } = require("./controllers/users/usersCtrl");
 
 const app = express();
+//DB
 dbConnect();
-console.log(process.env)
 
+//Middleware
+app.use(express.json());
+//Register
+app.post("/api/users/register", userRegisterCtrl);
+
+//Login
+app.post("/api/users/login", (req, res) => {
+  //business logic
+  res.json({ user: "User Login" });
+});
+
+//fetch all user
+app.get("/api/users", (req, res) => {
+  //business logic
+  res.json({ user: "fetch all user" });
+});
+
+//server
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, console.log(`Server running at port ${PORT}`) )
+app.listen(PORT, console.log(`Server is running ${PORT}`));
